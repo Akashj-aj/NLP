@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Model Comparison & Evaluation | Complaint AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-badge">Complaint Classifier</span>
+      <h1 class="brand-title">Complaint AI</h1>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('index') }}" class="nav-link">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="{{ url_for('comparison') }}" class="nav-link active">
+        <svg viewBox="0 0 24 24"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
+        <span>Model Comparison</span>
+      </a>
+      <a href="{{ url_for('about') }}" class="nav-link">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <span>About Project</span>
+      </a>
+    </nav>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="top-bar">
+      <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle Navigation">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <span class="brand-title" style="color: var(--near-black); font-size: 1.25rem;">Complaint AI</span>
+    </div>
+
+    <div class="page-header">
+      <span class="mono-tag">Performance Benchmarks</span>
+      <h1 class="page-title">Model Comparison & Evaluation</h1>
+      <p class="page-desc">
+        Comprehensive comparative analysis of Multinomial Naive Bayes, Logistic Regression, and Linear SVM evaluated independently on identical test splits.
+      </p>
+    </div>
+
+    <!-- Overview Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-title">Dataset Samples</span>
+        <div class="stat-value">{{ eval_data.dataset_stats.total_samples if eval_data else '24,635' }}</div>
+        <span class="stat-desc">Deduplicated complaints</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-title">Evaluation Test Set</span>
+        <div class="stat-value">{{ eval_data.dataset_stats.test_samples if eval_data else '4,927' }}</div>
+        <span class="stat-desc">20% stratified holdout</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-title">Target Categories</span>
+        <div class="stat-value">{{ eval_data.dataset_stats.num_categories if eval_data else '11' }}</div>
+        <span class="stat-desc">Support domains</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-title">Top Performing Model</span>
+        <div class="stat-value" style="font-size: 1.5rem; color: var(--secondary-teal);">
+          {% if eval_data and eval_data.best_model %}
+            {{ eval_data.models[eval_data.best_model].name }}
+          {% else %}
+            Multinomial Naive Bayes
+          {% endif %}
+        </div>
+        <span class="stat-desc">Highest Macro F1-score</span>
+      </div>
+    </div>
+
+    <!-- Comparison Table Card -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Model Performance Metrics</h2>
+          <p class="card-subtitle">Macro-averaged precision, recall, and F1-score calculated from actual test data.</p>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Algorithm</th>
+              <th>Accuracy</th>
+              <th>Macro Precision</th>
+              <th>Macro Recall</th>
+              <th>Macro F1-Score</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for model in comparison_table %}
+            <tr>
+              <td style="font-weight: 600;">
+                {{ model.name }}
+                {% if model.is_best %}
+                <span class="badge-best">Best Model</span>
+                {% endif %}
+              </td>
+              <td style="font-family: var(--font-mono);">{{ "%.2f"|format(model.accuracy * 100) }}%</td>
+              <td style="font-family: var(--font-mono);">{{ "%.2f"|format(model.precision * 100) }}%</td>
+              <td style="font-family: var(--font-mono);">{{ "%.2f"|format(model.recall * 100) }}%</td>
+              <td style="font-family: var(--font-mono); font-weight: 700; color: var(--secondary-teal);">{{ "%.2f"|format(model.f1_score * 100) }}%</td>
+              <td>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:0.85rem;color:#059669;font-weight:500;">
+                  <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  Trained & Evaluated
+                </span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Performance Charts Grid -->
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3 class="card-title" style="font-size: 1.15rem; margin-bottom: 4px;">Accuracy Comparison</h3>
+        <p class="card-subtitle" style="margin-bottom: 16px;">Test set prediction accuracy across algorithms</p>
+        <div class="chart-container">
+          <canvas id="accuracyChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h3 class="card-title" style="font-size: 1.15rem; margin-bottom: 4px;">Macro F1-Score Comparison</h3>
+        <p class="card-subtitle" style="margin-bottom: 16px;">Balanced evaluation across all 11 classes</p>
+        <div class="chart-container">
+          <canvas id="f1Chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confusion Matrices Card -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Confusion Matrices</h2>
+          <p class="card-subtitle">Actual vs. predicted category distribution for each algorithm.</p>
+        </div>
+        <div>
+          <select id="matrixModelSelect" class="form-select" style="width: auto; padding: 6px 14px; font-size: 0.88rem;">
+            <option value="naive_bayes">Multinomial Naive Bayes</option>
+            <option value="logistic_regression">Logistic Regression</option>
+            <option value="linear_svm">Linear Support Vector Machine</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="confusionMatrixWrapper" class="cm-container">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('/api/evaluation');
+        const data = await res.json();
+        if (!data || !data.models) return;
+
+        const modelKeys = Object.keys(data.models);
+        const labels = modelKeys.map(k => data.models[k].name);
+        const accuracies = modelKeys.map(k => (data.models[k].accuracy * 100).toFixed(2));
+        const f1Scores = modelKeys.map(k => (data.models[k].f1_score * 100).toFixed(2));
+
+        // Accuracy Bar Chart
+        const ctxAcc = document.getElementById('accuracyChart').getContext('2d');
+        new Chart(ctxAcc, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Accuracy (%)',
+              data: accuracies,
+              backgroundColor: ['#003032', '#DEEC51', '#323233'],
+              borderColor: '#050711',
+              borderWidth: 1,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                min: 98,
+                max: 100,
+                ticks: {
+                  callback: (val) => val + '%'
+                }
+              }
+            },
+            plugins: {
+              legend: { display: false }
+            }
+          }
+        });
+
+        // F1 Bar Chart
+        const ctxF1 = document.getElementById('f1Chart').getContext('2d');
+        new Chart(ctxF1, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Macro F1-Score (%)',
+              data: f1Scores,
+              backgroundColor: ['#003032', '#DEEC51', '#323233'],
+              borderColor: '#050711',
+              borderWidth: 1,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                min: 98,
+                max: 100,
+                ticks: {
+                  callback: (val) => val + '%'
+                }
+              }
+            },
+            plugins: {
+              legend: { display: false }
+            }
+          }
+        });
+
+        // Render Confusion Matrix
+        const categories = data.categories;
+        const matrixSelect = document.getElementById('matrixModelSelect');
+        const matrixWrapper = document.getElementById('confusionMatrixWrapper');
+
+        function renderMatrix(modelKey) {
+          const cm = data.models[modelKey].confusion_matrix;
+          if (!cm) return;
+
+          let html = '<table class="cm-table"><thead><tr><th>Actual \\ Pred</th>';
+          categories.forEach(c => {
+            html += `<th title="${c}">${c.slice(0, 4)}</th>`;
+          });
+          html += '</tr></thead><tbody>';
+
+          for (let i = 0; i < categories.length; i++) {
+            html += `<tr><th title="${categories[i]}">${categories[i].slice(0, 4)}</th>`;
+            for (let j = 0; j < categories.length; j++) {
+              const val = cm[i][j];
+              const isDiagonal = i === j;
+              const bg = isDiagonal 
+                ? 'rgba(0, 48, 50, 0.85); color: #DEEC51;' 
+                : (val > 0 ? 'rgba(239, 68, 68, 0.15); color: #DC2626;' : '#FFFFFF; color: #9CA3AF;');
+              html += `<td class="cm-cell" style="background-color:${bg}">${val}</td>`;
+            }
+            html += '</tr>';
+          }
+          html += '</tbody></table>';
+          matrixWrapper.innerHTML = html;
+        }
+
+        renderMatrix(matrixSelect.value);
+        matrixSelect.addEventListener('change', (e) => {
+          renderMatrix(e.target.value);
+        });
+
+      } catch (err) {
+        console.error('Error loading chart evaluation metrics:', err);
+      }
+    });
+  </script>
+</body>
+</html>
+

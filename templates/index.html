@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Complaint Classification | NLP</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-badge">Complaint Classifier</span>
+      <h1 class="brand-title">Complaint AI</h1>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('index') }}" class="nav-link active">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="{{ url_for('comparison') }}" class="nav-link">
+        <svg viewBox="0 0 24 24"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
+        <span>Model Comparison</span>
+      </a>
+      <a href="{{ url_for('about') }}" class="nav-link">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <span>About Project</span>
+      </a>
+    </nav>
+
+  </aside>
+
+  <!-- Main Content View -->
+  <main class="main-content">
+    <!-- Mobile Header Bar -->
+    <div class="top-bar">
+      <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle Navigation">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <span class="brand-title" style="color: var(--near-black); font-size: 1.25rem;">Complaint AI</span>
+    </div>
+
+    <div class="page-header">
+      <span class="mono-tag">Interactive NLP Pipeline</span>
+      <h1 class="page-title">Customer Complaint Classification</h1>
+      <p class="page-desc">
+        Enter customer complaints in plain English to automatically classify them into support categories using TF-IDF feature extraction and trained Machine Learning algorithms.
+      </p>
+    </div>
+
+    <!-- Classification Input Card -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Classify Customer Message</h2>
+          <p class="card-subtitle">Select an algorithm and input a message or choose a sample prompt below.</p>
+        </div>
+      </div>
+
+      <form id="classifyForm">
+        <div class="form-group">
+          <label class="form-label" for="complaintInput">
+            <span>Customer Complaint Text</span>
+            <span class="label-hint">Plain English</span>
+          </label>
+          <textarea
+            id="complaintInput"
+            class="form-control"
+            placeholder="e.g. My payment was deducted, but my order was not confirmed."
+            required
+          ></textarea>
+
+          <div class="sample-pills">
+            <span style="font-size:0.75rem;color:var(--muted-text);align-self:center;font-weight:600;">Try sample:</span>
+            <button type="button" class="sample-pill" data-sample="My payment was deducted, but my order was not confirmed.">Payment Deduction Issue</button>
+            <button type="button" class="sample-pill" data-sample="I paid for my order, but the amount was deducted and my order is still showing as unpaid.">Order Unpaid Status</button>
+            <button type="button" class="sample-pill" data-sample="What is the fee for canceling my contract?">Cancel Contract</button>
+            <button type="button" class="sample-pill" data-sample="How can I contact customer support?">Contact Support</button>
+            <button type="button" class="sample-pill" data-sample="When will my package be delivered?">Delivery Status</button>
+            <button type="button" class="sample-pill" data-sample="Can you please change my delivery shipping address?">Shipping Address Change</button>
+            <button type="button" class="sample-pill" data-sample="I want a refund for the damaged product I received.">Product Refund Request</button>
+            <button type="button" class="sample-pill" data-sample="I would like to leave feedback about my support experience.">Service Feedback</button>
+            <button type="button" class="sample-pill" data-sample="Can you send me the invoice for my purchase?">Request Invoice</button>
+            <button type="button" class="sample-pill" data-sample="I forgot my account password and cannot log in.">Account Access Issue</button>
+            <button type="button" class="sample-pill" data-sample="How do I subscribe to the newsletter?">Newsletter Subscription</button>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 18px;">
+          <label class="form-label" for="modelSelect">
+            <span>Select Machine Learning Model</span>
+            <span class="label-hint">3 Scikit-learn Classifiers</span>
+          </label>
+          <select id="modelSelect" class="form-select">
+            <option value="logistic_regression" {% if best_model == 'logistic_regression' %}selected{% endif %}>Logistic Regression</option>
+            <option value="naive_bayes" {% if best_model == 'naive_bayes' %}selected{% endif %}>Multinomial Naive Bayes {% if best_model == 'naive_bayes' %}(Best Performer){% endif %}</option>
+            <option value="linear_svm" {% if best_model == 'linear_svm' %}selected{% endif %}>Linear Support Vector Machine (Linear SVM)</option>
+          </select>
+        </div>
+
+        <div class="btn-group">
+          <button type="submit" id="submitBtn" class="btn btn-primary">
+            <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Classify Complaint
+          </button>
+          <button type="button" id="clearBtn" class="btn btn-secondary">
+            Clear
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Prediction Result Card -->
+    <div id="resultCard" class="result-card">
+      <div class="result-header">
+        <span class="result-badge">Predicted Classification Result</span>
+        <span style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted-text);">Scikit-learn Model Output</span>
+      </div>
+
+      <div class="prediction-highlight">
+        <div>
+          <span style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; color: var(--muted-text); display: block; margin-bottom: 4px;">Predicted Category</span>
+          <div class="prediction-category" id="resCategory">--</div>
+        </div>
+      </div>
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Selected Algorithm</span>
+          <span class="meta-value" id="resModel">--</span>
+        </div>
+        <div class="meta-item" style="grid-column: span 2;">
+          <span class="meta-label">Preprocessed Tokens</span>
+          <span class="meta-value" id="resCleaned" style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 400; color: #4B5563;">--</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
+

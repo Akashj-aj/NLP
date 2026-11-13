@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Project | Complaint AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-badge">Complaint Classifier</span>
+      <h1 class="brand-title">Complaint AI</h1>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('index') }}" class="nav-link">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="{{ url_for('comparison') }}" class="nav-link">
+        <svg viewBox="0 0 24 24"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
+        <span>Model Comparison</span>
+      </a>
+      <a href="{{ url_for('about') }}" class="nav-link active">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <span>About Project</span>
+      </a>
+    </nav>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="top-bar">
+      <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle Navigation">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <span class="brand-title" style="color: var(--near-black); font-size: 1.25rem;">Complaint AI</span>
+    </div>
+
+    <div class="page-header">
+      <h1 class="page-title">About This Project</h1>
+      <p class="page-desc">
+        A web app that reads a customer complaint and automatically figures out what category it belongs to — like a payment issue, an order problem, a refund request, and so on.
+      </p>
+    </div>
+
+    <!-- Dataset Details Card -->
+    <div class="card">
+      <h2 class="card-title" style="margin-bottom: 12px;">1. Dataset Details</h2>
+      <p style="margin-bottom: 12px; color: var(--dark-text); line-height: 1.6;">
+        The app is trained on the <strong>Bitext Customer Support Dataset</strong> — a large collection of customer support messages covering common service topics.
+      </p>
+      <ul style="margin-left: 20px; margin-bottom: 14px; color: var(--dark-text); line-height: 1.8;">
+        <li><strong>Total Messages:</strong> 26,872 original (24,635 after removing duplicates).</li>
+        <li><strong>Categories:</strong> 11 — ACCOUNT, CANCEL, CONTACT, DELIVERY, FEEDBACK, INVOICE, ORDER, PAYMENT, REFUND, SHIPPING, SUBSCRIPTION.</li>
+        <li><strong>Training / Testing:</strong> 80% for training (19,878 samples), 20% for testing (4,927 samples).</li>
+      </ul>
+    </div>
+
+    <!-- NLP Pipeline Card -->
+    <div class="card">
+      <h2 class="card-title" style="margin-bottom: 12px;">2. NLP Preprocessing Pipeline</h2>
+      <p style="margin-bottom: 14px; color: var(--dark-text); line-height: 1.6;">
+        Before the model reads a complaint, the text goes through a few cleaning steps to make it easier to understand:
+      </p>
+      <ol style="margin-left: 20px; margin-bottom: 16px; color: var(--dark-text); line-height: 1.8;">
+        <li><strong>Remove identifiers:</strong> Order IDs, UPI IDs, transaction numbers, emails, and phone numbers are replaced with simple tags (like <code style="font-family:var(--font-mono);background:#E5E7EB;padding:2px 6px;border-radius:4px;">&lt;order_id&gt;</code>) so they don't confuse the model.</li>
+        <li><strong>Lowercase &amp; expand contractions:</strong> Text is lowercased and words like "can't" are written out as "cannot".</li>
+        <li><strong>Remove symbols:</strong> Punctuation and special characters are removed.</li>
+        <li><strong>Remove common words:</strong> Words like "the", "is", "a" are removed since they don't help with classification. But negation words like <strong>not, never, didn't, can't</strong> are kept because they change the meaning.</li>
+        <li><strong>Convert to numbers (TF-IDF):</strong> The cleaned text is turned into numbers the model can work with, based on how often words and phrases appear.</li>
+      </ol>
+    </div>
+
+    <!-- ML Algorithms Card -->
+    <div class="card">
+      <h2 class="card-title" style="margin-bottom: 12px;">3. Machine Learning Algorithms</h2>
+      <p style="margin-bottom: 14px; color: var(--dark-text); line-height: 1.6;">
+        Three different models are trained and compared. You can choose which one to use when classifying a complaint:
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 16px;">
+        <div style="background:var(--surface-alt);padding:16px;border-radius:var(--radius-md);border:1px solid var(--surface-border);">
+          <h3 style="font-size:1.05rem;margin-bottom:6px;color:var(--secondary-teal);">Multinomial Naive Bayes</h3>
+          <p style="font-size:0.88rem;color:var(--dark-text);line-height:1.5;">
+            Uses word frequencies to figure out which category a complaint most likely belongs to. Simple, fast, and works well with text.
+          </p>
+        </div>
+        <div style="background:var(--surface-alt);padding:16px;border-radius:var(--radius-md);border:1px solid var(--surface-border);">
+          <h3 style="font-size:1.05rem;margin-bottom:6px;color:var(--secondary-teal);">Logistic Regression</h3>
+          <p style="font-size:0.88rem;color:var(--dark-text);line-height:1.5;">
+            Learns which words are most important for each category and uses that to make a prediction.
+          </p>
+        </div>
+        <div style="background:var(--surface-alt);padding:16px;border-radius:var(--radius-md);border:1px solid var(--surface-border);">
+          <h3 style="font-size:1.05rem;margin-bottom:6px;color:var(--secondary-teal);">Linear SVM</h3>
+          <p style="font-size:0.88rem;color:var(--dark-text);line-height:1.5;">
+            Finds the clearest boundary between categories. Usually the most accurate for text classification.
+          </p>
+        </div>
+      </div>
+      <p style="font-size:0.9rem;color:var(--muted-text);">
+        All three models are trained on the same data and evaluated separately. You can compare their accuracy on the Model Comparison page.
+      </p>
+    </div>
+
+  </main>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

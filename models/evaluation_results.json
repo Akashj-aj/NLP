@@ -1,0 +1,712 @@
+{
+  "categories": [
+    "ACCOUNT",
+    "CANCEL",
+    "CONTACT",
+    "DELIVERY",
+    "FEEDBACK",
+    "INVOICE",
+    "ORDER",
+    "PAYMENT",
+    "REFUND",
+    "SHIPPING",
+    "SUBSCRIPTION"
+  ],
+  "dataset_stats": {
+    "total_samples": 24805,
+    "train_samples": 19878,
+    "test_samples": 4927,
+    "augmented_samples_in_train": 170,
+    "challenge_samples": 33,
+    "num_categories": 11
+  },
+  "models": {
+    "naive_bayes": {
+      "name": "Multinomial Naive Bayes",
+      "key": "naive_bayes",
+      "accuracy": 0.9943,
+      "precision": 0.9952,
+      "recall": 0.9939,
+      "f1_score": 0.9945,
+      "confusion_matrix": [
+        [
+          1087,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          190,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          399,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          329,
+          0,
+          1,
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          399,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          359,
+          5,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          4,
+          629,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          397,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          519,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          392,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          199
+        ]
+      ],
+      "category_metrics": {
+        "ACCOUNT": {
+          "precision": 0.9936,
+          "recall": 0.9991,
+          "f1-score": 0.9963,
+          "support": 1088
+        },
+        "CANCEL": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 190
+        },
+        "CONTACT": {
+          "precision": 1.0,
+          "recall": 0.9975,
+          "f1-score": 0.9987,
+          "support": 400
+        },
+        "DELIVERY": {
+          "precision": 0.991,
+          "recall": 0.991,
+          "f1-score": 0.991,
+          "support": 332
+        },
+        "FEEDBACK": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 399
+        },
+        "INVOICE": {
+          "precision": 0.9836,
+          "recall": 0.9809,
+          "f1-score": 0.9822,
+          "support": 366
+        },
+        "ORDER": {
+          "precision": 0.9874,
+          "recall": 0.9921,
+          "f1-score": 0.9898,
+          "support": 634
+        },
+        "PAYMENT": {
+          "precision": 0.995,
+          "recall": 0.9925,
+          "f1-score": 0.9937,
+          "support": 400
+        },
+        "REFUND": {
+          "precision": 0.9962,
+          "recall": 0.9905,
+          "f1-score": 0.9933,
+          "support": 524
+        },
+        "SHIPPING": {
+          "precision": 1.0,
+          "recall": 0.9949,
+          "f1-score": 0.9975,
+          "support": 394
+        },
+        "SUBSCRIPTION": {
+          "precision": 1.0,
+          "recall": 0.995,
+          "f1-score": 0.9975,
+          "support": 200
+        }
+      }
+    },
+    "logistic_regression": {
+      "name": "Logistic Regression",
+      "key": "logistic_regression",
+      "accuracy": 0.9935,
+      "precision": 0.9948,
+      "recall": 0.9929,
+      "f1_score": 0.9938,
+      "confusion_matrix": [
+        [
+          1088,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          190,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          399,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          330,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          398,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          362,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          4,
+          628,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          6,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          391,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          2,
+          1,
+          1,
+          519,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          392,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          198
+        ]
+      ],
+      "category_metrics": {
+        "ACCOUNT": {
+          "precision": 0.9882,
+          "recall": 1.0,
+          "f1-score": 0.9941,
+          "support": 1088
+        },
+        "CANCEL": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 190
+        },
+        "CONTACT": {
+          "precision": 1.0,
+          "recall": 0.9975,
+          "f1-score": 0.9987,
+          "support": 400
+        },
+        "DELIVERY": {
+          "precision": 0.991,
+          "recall": 0.994,
+          "f1-score": 0.9925,
+          "support": 332
+        },
+        "FEEDBACK": {
+          "precision": 1.0,
+          "recall": 0.9975,
+          "f1-score": 0.9987,
+          "support": 399
+        },
+        "INVOICE": {
+          "precision": 0.9784,
+          "recall": 0.9891,
+          "f1-score": 0.9837,
+          "support": 366
+        },
+        "ORDER": {
+          "precision": 0.9937,
+          "recall": 0.9905,
+          "f1-score": 0.9921,
+          "support": 634
+        },
+        "PAYMENT": {
+          "precision": 0.9974,
+          "recall": 0.9775,
+          "f1-score": 0.9874,
+          "support": 400
+        },
+        "REFUND": {
+          "precision": 0.9962,
+          "recall": 0.9905,
+          "f1-score": 0.9933,
+          "support": 524
+        },
+        "SHIPPING": {
+          "precision": 0.9975,
+          "recall": 0.9949,
+          "f1-score": 0.9962,
+          "support": 394
+        },
+        "SUBSCRIPTION": {
+          "precision": 1.0,
+          "recall": 0.99,
+          "f1-score": 0.995,
+          "support": 200
+        }
+      }
+    },
+    "linear_svm": {
+      "name": "Linear Support Vector Machine",
+      "key": "linear_svm",
+      "accuracy": 0.9949,
+      "precision": 0.9956,
+      "recall": 0.9943,
+      "f1_score": 0.9949,
+      "confusion_matrix": [
+        [
+          1088,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          190,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          399,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          331,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          399,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          0,
+          361,
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          2,
+          630,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          393,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          1,
+          520,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          393,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          198
+        ]
+      ],
+      "category_metrics": {
+        "ACCOUNT": {
+          "precision": 0.9927,
+          "recall": 1.0,
+          "f1-score": 0.9963,
+          "support": 1088
+        },
+        "CANCEL": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 190
+        },
+        "CONTACT": {
+          "precision": 1.0,
+          "recall": 0.9975,
+          "f1-score": 0.9987,
+          "support": 400
+        },
+        "DELIVERY": {
+          "precision": 0.9822,
+          "recall": 0.997,
+          "f1-score": 0.9895,
+          "support": 332
+        },
+        "FEEDBACK": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 399
+        },
+        "INVOICE": {
+          "precision": 0.989,
+          "recall": 0.9863,
+          "f1-score": 0.9877,
+          "support": 366
+        },
+        "ORDER": {
+          "precision": 0.9921,
+          "recall": 0.9937,
+          "f1-score": 0.9929,
+          "support": 634
+        },
+        "PAYMENT": {
+          "precision": 0.9975,
+          "recall": 0.9825,
+          "f1-score": 0.9899,
+          "support": 400
+        },
+        "REFUND": {
+          "precision": 0.9981,
+          "recall": 0.9924,
+          "f1-score": 0.9952,
+          "support": 524
+        },
+        "SHIPPING": {
+          "precision": 1.0,
+          "recall": 0.9975,
+          "f1-score": 0.9987,
+          "support": 394
+        },
+        "SUBSCRIPTION": {
+          "precision": 1.0,
+          "recall": 0.99,
+          "f1-score": 0.995,
+          "support": 200
+        }
+      }
+    }
+  },
+  "challenge_results": {
+    "naive_bayes": {
+      "accuracy": 0.8182,
+      "macro_f1": 0.8035,
+      "prompt_case_1": "REFUND",
+      "prompt_case_2": "REFUND",
+      "prompt_case_3": "REFUND"
+    },
+    "logistic_regression": {
+      "accuracy": 0.697,
+      "macro_f1": 0.6656,
+      "prompt_case_1": "REFUND",
+      "prompt_case_2": "REFUND",
+      "prompt_case_3": "REFUND"
+    },
+    "linear_svm": {
+      "accuracy": 0.7576,
+      "macro_f1": 0.7471,
+      "prompt_case_1": "REFUND",
+      "prompt_case_2": "REFUND",
+      "prompt_case_3": "REFUND"
+    }
+  },
+  "best_model": "linear_svm"
+}
